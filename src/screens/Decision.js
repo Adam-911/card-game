@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import Button from "../components/Button";
-import testImg from "../../assets/viking.png";
 import data from "../utils/fractions";
 import { connect } from "react-redux";
+import { getRandomInt, getStringNum } from "../utils/utils";
 
 function Decision({ 
     navigation, 
@@ -14,11 +14,10 @@ function Decision({
     bondImg,
     thraelImg 
 }) {
-    const [image, setImage] = useState();
     const [question, setQuestion] = useState();
 
     useEffect(() => {
-        setQuestion(data[selectedFraction].questions[0]);
+        setQuestion(data[selectedFraction].questions[getRandomInt(3)]);
     }, []);
 
     const goToResultWithPositive = () => {
@@ -32,7 +31,6 @@ function Decision({
     }
     
     const selectImage = () => {
-        console.log("LOLOL");
         switch(selectedFraction) {
             case "warriors": 
                 return warriorImg;
@@ -50,8 +48,18 @@ function Decision({
             <Image source={selectImage()} style={styles.img}/>
             <Text style={styles.question}>{question ? question.text : ""}</Text>
             <View style={styles.buttonsWrapper}>
-                <Button label="Да" color="green" onPress={goToResultWithPositive}/>
-                <Button label="Нет" color='red' onPress={goToResultWithNegative}/>
+                <Button 
+                  label="Да" 
+                  gold={question && question.dependencies.yes ? getStringNum(question.dependencies.yes.gold) : undefined} 
+                  color="green" 
+                  onPress={goToResultWithPositive}
+                />
+                <Button 
+                  label="Нет" 
+                  color='red' 
+                  gold={question && question.dependencies.no ? getStringNum(question.dependencies.no.gold) : undefined} 
+                  onPress={goToResultWithNegative}
+                />
             </View>
         </View>
     );

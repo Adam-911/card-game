@@ -3,7 +3,7 @@ const initialState = {
     warriors: 10,
     drots: 10,
     bonds: 10,
-    trells: 10,
+    thraels: 10,
     gold: 2000,
     consequence: {}
 };
@@ -25,14 +25,19 @@ const reducer = (state = initialState, action) => {
                 warriors, 
                 drots, 
                 bonds, 
-                trells 
+                thraels 
             } = action.payload;
             return {
                 ...state,
                 warriors: warriors, 
                 drots: drots, 
                 bonds: bonds, 
-                trells: trells
+                thraels: thraels
+            }
+        case "CHANGE_GOLD_POINTS": 
+            return {
+                ...state,
+                gold: action.payload
             }
         default: 
             return state; 

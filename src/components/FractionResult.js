@@ -1,13 +1,7 @@
 import React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import { connect } from "react-redux";
-import testImg from '../../assets/viking.png';
 import xImg from '../../assets/x.png';
-
-/**
- * TODO:
- * Реализовать отображение кол-ва очков в строки и крестиков 
- */
 
 function FractionResult({ 
     points, 
@@ -26,16 +20,13 @@ function FractionResult({
         const style = [styles.xImgS];
         
         if (editedResult && i >= points) {
-            console.log("ОТРИЦАТЕЛЬНОЕ");
             style.push({ tintColor: 'grey' });
         } else if (i >= (points - result)) {
-            console.log(i, points, points - result);
             style.push({ tintColor: 'green' });
         } 
 
         fractionPoints.push( 
             <Image key={i} source={xImg} style={style}/>
-            // <Text>{i+1}</Text>
         )
     }
 

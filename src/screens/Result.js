@@ -10,23 +10,30 @@ function Result({
     warriors, 
     drots, 
     bonds, 
-    trells, 
+    thraels, 
+    gold,
     consequence, 
     changeFractionsPoints, 
+    changeGoldPoints
 }) {
-    console.log("consequence:", consequence, "warriors:", warriors);
 
     useEffect(() => {
         const newWarriorsPoints = warriors + consequence.warriors;
         const newDrotsPoints = drots + consequence.drots;
         const newBondsPoints = bonds + consequence.bonds;
-        const newTrellsPoints = trells + consequence.trells;
+        const newThraelsPoints = thraels + consequence.thraels;
         changeFractionsPoints({
             warriors: newWarriorsPoints, 
             drots: newDrotsPoints, 
             bonds: newBondsPoints, 
-            trells: newTrellsPoints
+            thraels: newThraelsPoints
         });
+
+        if (consequence.gold) {
+            const newGoldPoints = gold + consequence.gold;
+            changeGoldPoints(newGoldPoints);
+        }
+
     }, []);
     
     return (
@@ -35,7 +42,7 @@ function Result({
                 <FractionResult points={warriors} result={consequence.warriors} fraction="warriors"/>
                 <FractionResult points={drots} result={consequence.drots} fraction="drotts"/>
                 <FractionResult points={bonds} result={consequence.bonds} fraction="bonds"/>
-                <FractionResult points={trells} result={consequence.trells} fraction="thraels"/>
+                <FractionResult points={thraels} result={consequence.thraels} fraction="thraels"/>
             </View>
             <Button label="ОК" color="green" onPress={() => {navigation.navigate('main')}}/>
         </View>
@@ -47,14 +54,16 @@ const mapStateToProps = ({ rootState, images }) => {
         warriors,
         drots,
         bonds,
-        trells,
+        thraels,
+        gold,
         consequence
     } = rootState;
     return { 
         warriors,
         drots,
         bonds,
-        trells,
+        thraels,
+        gold,
         consequence,
     };
 }
@@ -66,6 +75,12 @@ const mapDispatchToProps = (dispatch) => {
                 type: "CHANGE_FRACTIONS_POINTS",
                 payload: newFractionsPoints
             });
+        },
+        changeGoldPoints: (newGoldPoints) => {
+            dispatch({
+                type: "CHANGE_GOLD_POINTS",
+                payload: newGoldPoints
+            })
         }
     }
 }
