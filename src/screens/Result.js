@@ -12,9 +12,11 @@ function Result({
     bonds, 
     thraels, 
     gold,
+    move,
     consequence, 
     changeFractionsPoints, 
-    changeGoldPoints
+    changeGoldPoints,
+    changeMovePoints
 }) {
 
     useEffect(() => {
@@ -35,6 +37,11 @@ function Result({
         }
 
     }, []);
+
+    const onPressOk = () => {
+        navigation.navigate('main');
+        changeMovePoints(++move);
+    }
     
     return (
         <View style={styles.container}>
@@ -44,7 +51,7 @@ function Result({
                 <FractionResult points={bonds} result={consequence.bonds} fraction="bonds"/>
                 <FractionResult points={thraels} result={consequence.thraels} fraction="thraels"/>
             </View>
-            <Button label="ОК" color="green" onPress={() => {navigation.navigate('main')}}/>
+            <Button label="ОК" color="green" onPress={onPressOk}/>
         </View>
     ); 
 }
@@ -56,6 +63,7 @@ const mapStateToProps = ({ rootState, images }) => {
         bonds,
         thraels,
         gold,
+        move,
         consequence
     } = rootState;
     return { 
@@ -64,6 +72,7 @@ const mapStateToProps = ({ rootState, images }) => {
         bonds,
         thraels,
         gold,
+        move,
         consequence,
     };
 }
@@ -81,6 +90,12 @@ const mapDispatchToProps = (dispatch) => {
                 type: "CHANGE_GOLD_POINTS",
                 payload: newGoldPoints
             })
+        },
+        changeMovePoints: (newMovePoints) => {
+            dispatch({
+                type: "CHANGE_MOVE_POINTS",
+                payload: newMovePoints
+            })
         }
     }
 }
@@ -90,12 +105,12 @@ export default connect(mapStateToProps, mapDispatchToProps)(Result)
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
+        justifyContent: 'space-evenly',
         padding: 12,
         backgroundColor: '#2F4F4F', 
     },
     fractionsWrapper: {
-        flex: 0.5,
+        flex: 0.7,
         justifyContent: 'space-between',
         // alignItems: 'flex-start'
     }

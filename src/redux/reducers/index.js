@@ -5,6 +5,7 @@ const initialState = {
     bonds: 10,
     thraels: 10,
     gold: 2000,
+    move: 1,
     consequence: {}
 };
 
@@ -39,6 +40,14 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 gold: action.payload
             }
+        case "CHANGE_MOVE_POINTS":
+            return {
+                ...state,
+                move: action.payload
+            }
+        case "NEW_GAME": 
+            return initialState;
+            
         default: 
             return state; 
     }

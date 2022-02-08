@@ -81,17 +81,18 @@ export default connect(mapStateToProps)(FractionResult);
 
 const styles = StyleSheet.create({
     container: {
+        flex: 1,
         flexDirection: 'row',
-        // justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     img: {
         height: 50,
-        width: 50
+        width: 50,
+        marginRight: 20
     },
     xImgS: {
-        height: 23,
-        width: 23,
+        height: 20,
+        width: 20,
         marginRight: 7,
         marginTop: 7,
         tintColor: 'white'

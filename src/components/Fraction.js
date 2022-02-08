@@ -1,13 +1,22 @@
 import React from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import vikingImg from '../../assets/viking.png';
+import timeImg from '../../assets/clock.png';
 
-export default function Fraction({ label, onPress, imgSrc }) {
+export default function Fraction({ label, onPress, imgSrc, available = true }) {
+    console.log(available);
+
     return (
-        <TouchableOpacity style={styles.container} onPress={onPress}>
-            <Image style={styles.img} source={imgSrc}/>
-            <Text style={styles.text}>{label}</Text>
-        </TouchableOpacity>
+        (available ?
+            <TouchableOpacity style={styles.container} onPress={onPress}>
+                <Image style={styles.img} source={imgSrc}/>
+                <Text style={styles.text}>{label}</Text>
+            </TouchableOpacity>
+        :
+            <View style={styles.container}>
+                <Image style={styles.img} source={timeImg}/>
+                <Text style={styles.text}>{label}</Text>
+            </View>
+        )
     );
 } 
 
