@@ -1,6 +1,7 @@
 import React from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { connect } from "react-redux";
+import Button from "../components/Button";
 
 function EndGame({ startNewGame, navigation, gold, move }) {
     const onPressOK = () => {
@@ -9,17 +10,20 @@ function EndGame({ startNewGame, navigation, gold, move }) {
     }
 
     return (
-        <View style={styles.container}>
+        <View style={styles.container}> 
             <Text style={styles.headerText}>Конец саги</Text>
-            <Text>Ваша сага закончилась ничем</Text>
-            <Text>Ваше золото: {gold}</Text>
-            <Text>Кол-во ходов: {move}</Text>
-            <Pressable
-              onPress={onPressOK}
-              style={styles.button}
-            >
-                <Text>Еще раз</Text>
-            </Pressable>
+            <Text style={styles.text}>Ваша сага закончилась ничем</Text>
+            <Text style={styles.text}>
+                Ваше золото: <Text style={[styles.text, styles.gold]}>{gold}</Text>
+            </Text>
+            <Text style={styles.text}>
+                Кол-во ходов: <Text style={[styles.text, styles.move]}>{move}</Text>
+            </Text>
+            <Button 
+                label={'Еще раз'}
+                color={'green'}
+                onPress={onPressOK}
+            />
         </View>
     )
 }
@@ -60,5 +64,16 @@ const styles = StyleSheet.create({
         fontSize: 25,
         color: 'white',
         fontWeight: 'bold'
+    },
+    text: {
+        fontSize: 20,
+        color: 'white',
+        fontWeight: 'bold',
+    },
+    gold: {
+        color: 'gold'
+    },
+    move: {
+        color: 'silver'
     }
 });

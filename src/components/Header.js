@@ -29,7 +29,7 @@ export default connect(mapStateToProps)(Header);
 
 const styles = StyleSheet.create({
     container: {
-        flex: 0.10,
+        flex: 0.15,
         flexDirection: 'row',
         justifyContent:'space-around',
         alignItems: 'center',

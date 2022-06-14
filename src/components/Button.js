@@ -8,7 +8,7 @@ export default function Button({ label, color = 'blue', onPress, gold }) {
           onPress={onPress}
         >
             <Text style={styles.text}>{label}</Text>
-            {gold ? <Text style={styles.text}>{gold}</Text> : undefined}
+            {gold && (<Text style={styles.text}>{`Цена: ${Math.abs(gold)}`}</Text>)}
         </TouchableOpacity>
     );
 }

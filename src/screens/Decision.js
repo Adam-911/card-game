@@ -7,7 +7,7 @@ import { getRandomInt, getStringNum } from "../utils/utils";
 
 function Decision({ 
     navigation, 
-    selectedFraction, 
+    selectedFraction,
     selectConsequence,
     warriorImg,
     drottImg,
@@ -50,14 +50,14 @@ function Decision({
             <View style={styles.buttonsWrapper}>
                 <Button 
                   label="Да" 
-                  gold={question && question.dependencies.yes ? getStringNum(question.dependencies.yes.gold) : undefined} 
+                  gold={question?.dependencies?.yes?.gold} 
                   color="green" 
                   onPress={goToResultWithPositive}
                 />
                 <Button 
                   label="Нет" 
                   color='red' 
-                  gold={question && question.dependencies.no ? getStringNum(question.dependencies.no.gold) : undefined} 
+                  gold={question?.dependencies?.no?.gold} 
                   onPress={goToResultWithNegative}
                 />
             </View>
@@ -108,8 +108,9 @@ const styles = StyleSheet.create({
         width: 100
     },
     question: {
-        // alignSelf: 'center'
         fontSize: 20,
+        color: '#FFFAFA',
+        textAlign: 'center'
     },
     buttonsWrapper: {
         alignSelf: 'stretch'

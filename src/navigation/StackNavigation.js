@@ -4,6 +4,7 @@ import Header from "../components/Header";
 import Decision from "../screens/Decision";
 import EndGame from "../screens/EndGame";
 import Main from "../screens/Main";
+import MainMenu from "../screens/MainMenu";
 import Result from "../screens/Result";
 
 const Stack = createNativeStackNavigator();
@@ -11,11 +12,18 @@ const Stack = createNativeStackNavigator();
 export default function StackNavigation() {
     return(
         <Stack.Navigator
+          initialRouteName="mainMenu"
           screenOptions={{
             // headerShown: false,
-            header: () => (<Header/>)
+            header: () => (<Header/>),
+            animationTypeForReplace: "push"
           }}
         >
+            <Stack.Screen
+              name="mainMenu"
+              options={{ headerShown: false }}
+              component={MainMenu}
+            />
             <Stack.Screen
               name="main"
               component={Main}

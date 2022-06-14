@@ -18,7 +18,13 @@ function FractionResult({
 
     for (let i = 0; i < points + editedResult; i++) {
         const style = [styles.xImgS];
-        
+
+        if (i <= 2 && points <= 3)
+            style.push({tintColor: 'red'})
+
+        if (i > 9 && points > 10) 
+            style.push({tintColor: 'gold'})
+
         if (editedResult && i >= points) {
             style.push({ tintColor: 'grey' });
         } else if (i >= (points - result)) {
@@ -35,6 +41,10 @@ function FractionResult({
     }
 
     const getTextStyle = () => {
+        
+        if (result === 0) 
+            return [styles.textDefault, styles.text];
+
         return result > 0 ? [styles.textPositive, styles.text] : [styles.textNegative, styles.text];
     }
 
@@ -108,6 +118,9 @@ const styles = StyleSheet.create({
     },
     textNegative: {
         color: 'red'
+    },
+    textDefault: {
+        color: '#C0C0C0'
     },
     text: {
         fontSize: 20,

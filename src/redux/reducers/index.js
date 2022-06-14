@@ -1,11 +1,12 @@
 const initialState = {
     selectedFraction: 'none',
     warriors: 10,
-    drots: 10,
+    drotts: 10,
     bonds: 10,
     thraels: 10,
     gold: 2000,
     move: 1,
+    raidAvailabilityCounter: 1,
     consequence: {}
 };
 
@@ -24,14 +25,14 @@ const reducer = (state = initialState, action) => {
         case 'CHANGE_FRACTIONS_POINTS':
             const { 
                 warriors, 
-                drots, 
+                drotts, 
                 bonds, 
                 thraels 
             } = action.payload;
             return {
                 ...state,
                 warriors: warriors, 
-                drots: drots, 
+                drotts: drotts, 
                 bonds: bonds, 
                 thraels: thraels
             }
@@ -44,6 +45,11 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 move: action.payload
+            }
+        case "CHANGE_RAID_AVAILABILITY_COUNTER": 
+            return {
+                ...state,
+                raidAvailabilityCounter: action.payload
             }
         case "NEW_GAME": 
             return initialState;

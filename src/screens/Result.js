@@ -1,53 +1,61 @@
-import React, { useEffect } from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { StyleSheet, View, Text } from "react-native";
 import { connect } from "react-redux";
-import testImg from '../../assets/viking.png';
 import Button from "../components/Button";
 import FractionResult from "../components/FractionResult";
 
 function Result({ 
     navigation, 
     warriors, 
-    drots, 
+    drotts, 
     bonds, 
     thraels, 
     gold,
     move,
+    raidAvailabilityCounter,
     consequence, 
     changeFractionsPoints, 
     changeGoldPoints,
-    changeMovePoints
+    changeMovePoints,
+    changeRaidAvailabilityCounter
 }) {
+    const [goldLoss, setGoldLoss] = useState(-100);
 
     useEffect(() => {
         const newWarriorsPoints = warriors + consequence.warriors;
-        const newDrotsPoints = drots + consequence.drots;
+        const newDrottsPoints = drotts + consequence.drotts;
         const newBondsPoints = bonds + consequence.bonds;
         const newThraelsPoints = thraels + consequence.thraels;
         changeFractionsPoints({
             warriors: newWarriorsPoints, 
-            drots: newDrotsPoints, 
+            drotts: newDrottsPoints, 
             bonds: newBondsPoints, 
             thraels: newThraelsPoints
         });
 
-        if (consequence.gold) {
-            const newGoldPoints = gold + consequence.gold;
-            changeGoldPoints(newGoldPoints);
-        }
+        if (consequence.gold)
+            setGoldLoss((prev) => (prev + consequence.gold));
 
     }, []);
 
     const onPressOk = () => {
         navigation.navigate('main');
         changeMovePoints(++move);
+        changeGoldPoints(gold + goldLoss);
+
+        if (raidAvailabilityCounter !== 4) 
+            changeRaidAvailabilityCounter(++raidAvailabilityCounter);
+
     }
     
     return (
         <View style={styles.container}>
+            <View style={styles.headerWrapper}>
+                <Text style={styles.headerText}>{goldLoss}</Text>
+            </View>
             <View style={styles.fractionsWrapper}>
                 <FractionResult points={warriors} result={consequence.warriors} fraction="warriors"/>
-                <FractionResult points={drots} result={consequence.drots} fraction="drotts"/>
+                <FractionResult points={drotts} result={consequence.drotts} fraction="drotts"/>
                 <FractionResult points={bonds} result={consequence.bonds} fraction="bonds"/>
                 <FractionResult points={thraels} result={consequence.thraels} fraction="thraels"/>
             </View>
@@ -56,23 +64,25 @@ function Result({
     ); 
 }
 
-const mapStateToProps = ({ rootState, images }) => {
+const mapStateToProps = ({ rootState }) => {
     const {
         warriors,
-        drots,
+        drotts,
         bonds,
         thraels,
         gold,
         move,
+        raidAvailabilityCounter,
         consequence
     } = rootState;
     return { 
         warriors,
-        drots,
+        drotts,
         bonds,
         thraels,
         gold,
         move,
+        raidAvailabilityCounter,
         consequence,
     };
 }
@@ -96,6 +106,12 @@ const mapDispatchToProps = (dispatch) => {
                 type: "CHANGE_MOVE_POINTS",
                 payload: newMovePoints
             })
+        },
+        changeRaidAvailabilityCounter: (newCounterPoints) => {
+            dispatch({
+                type: "CHANGE_RAID_AVAILABILITY_COUNTER",
+                payload: newCounterPoints
+            });
         }
     }
 }
@@ -106,11 +122,19 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'space-evenly',
-        padding: 12,
+        paddingVertical: 12,
+        paddingHorizontal: 20,
         backgroundColor: '#2F4F4F', 
     },
+    headerWrapper: {
+        alignItems: 'center',
+    },
+    headerText: {
+        color: 'red',
+        fontSize: 25
+    },
     fractionsWrapper: {
-        flex: 0.7,
+        flex: 0.8,
         justifyContent: 'space-between',
         // alignItems: 'flex-start'
     }

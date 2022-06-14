@@ -1,7 +1,8 @@
 import { useFocusEffect } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { Modal, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Image, Modal, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { connect } from 'react-redux';
+import Footer from '../components/Footer';
 import Fraction from '../components/Fraction';
 
 function Main({ 
@@ -13,7 +14,7 @@ function Main({
     bondImg,
     thraelImg,
     warriors,
-    drots,
+    drotts,
     bonds,
     thraels,
     gold,
@@ -22,7 +23,7 @@ function Main({
     const [fractionNotAvialable, setFractionNotAvialable] = useState(true);
 
     useFocusEffect(React.useCallback(() => {
-        const fractionsArray = [warriors, drots, bonds, thraels];
+        const fractionsArray = [warriors, drotts, bonds, thraels];
 
         for (const el of fractionsArray) {
             
@@ -33,11 +34,8 @@ function Main({
 
         }
 
-        if (selectedFraction !== "none") {
-            setTimeout(() => { setFractionNotAvialable(selectedFraction) }, 0);        
-        }
-
-    }, [warriors, drots, bonds, thraels, gold, selectedFraction]));
+        setTimeout(() => { setFractionNotAvialable(selectedFraction) }, 0);        
+    }, [warriors, drotts, bonds, thraels, gold, selectedFraction, fractionNotAvialable]));
 
     const goToDecision = (fraction) => {
         selectFraction(fraction);
@@ -51,23 +49,50 @@ function Main({
 
     return (
         <View style={styles.container}>
+            <Text style={styles.headerText}>Кого вы сегодня выслушаете, великий ярл?</Text>
             <View style={[styles.row, { marginBottom: 20 }]}>
-                <Fraction label='Воины' available={fractionNotAvialable !== 'warriors'} imgSrc={warriorImg} onPress={() => goToDecision("warriors")}/>
-                <Fraction label='Дроты' available={fractionNotAvialable !== 'drotts'} imgSrc={drottImg} onPress={() => goToDecision("drotts")}/>
-                <Fraction label='Бонды' available={fractionNotAvialable !== 'bonds'} imgSrc={bondImg} onPress={() => goToDecision("bonds")}/>
+                <Fraction 
+                  label='Воины' 
+                  available={fractionNotAvialable !== 'warriors'} 
+                  imgSrc={warriorImg} 
+                  onPress={() => goToDecision("warriors")}
+                  isAlarm={warriors <= 3}
+                />
+                <Fraction 
+                  label='Дроты' 
+                  available={fractionNotAvialable !== 'drotts'} 
+                  imgSrc={drottImg} 
+                  onPress={() => goToDecision("drotts")}
+                  isAlarm={drotts <= 3}
+                />
             </View>
             <View style={styles.row}>
-                <Fraction label='Трели' available={fractionNotAvialable !== 'thraels'} imgSrc={thraelImg} onPress={() => goToDecision("thraels")}/>
+                <Fraction 
+                  label='Бонды' 
+                  available={fractionNotAvialable !== 'bonds'} 
+                  imgSrc={bondImg} 
+                  onPress={() => goToDecision("bonds")}
+                  isAlarm={bonds <= 3}
+                />
+                <Fraction 
+                  label='Трели' 
+                  available={fractionNotAvialable !== 'thraels'} 
+                  imgSrc={thraelImg} 
+                  onPress={() => goToDecision("thraels")}
+                  isAlarm={thraels <= 3}
+                />
                 {/* <Fraction label='Викинги' imgSrc={warriorImg} onPress={() => goToDecision("warriors")}/>
                 <Fraction label='Викинги' imgSrc={warriorImg} onPress={() => goToDecision("warriors")}/> */}
             </View>
             {/* <Pressable style={styles.button} onPress={() => {setModalVisible(true)}}>
                 <Text>Открыть</Text>
             </Pressable> */}
+            <Footer/>
             <Modal
               animationType='slide'
               transparent={true}
               visible={modalVisible}
+            // visible={true}
               onRequestClose={() => {
                 Alert.alert("Modal has been closed.");
                 setModalVisible(!modalVisible);
@@ -90,7 +115,7 @@ const mapStateToProps = ({ rootState, images }) => {
     const { 
         selectedFraction,
         warriors,
-        drots,
+        drotts,
         bonds,
         thraels,
         gold,
@@ -108,7 +133,7 @@ const mapStateToProps = ({ rootState, images }) => {
         thraelImg,
         selectedFraction,
         warriors,
-        drots,
+        drotts,
         bonds,
         thraels,
         gold,
@@ -131,13 +156,20 @@ export default connect(mapStateToProps, mapDispatchToProps)(Main);
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center',
+        alignItems: 'stretch',
         justifyContent: 'center',
         padding: 12,
         backgroundColor: '#2F4F4F',
     }, 
+    headerText: {
+        fontSize: 20,
+        color: '#FFFAFA',
+        textAlign: 'center',
+        marginBottom: 20
+    },
     row: {
         flexDirection: 'row',
+        justifyContent: 'space-evenly'
     },
     centeredView: {
         flex: 1,
